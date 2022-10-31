@@ -6,14 +6,18 @@ def tip_calculator():
     meal_tax = amt_sales_tax(bill)
     bill_tip = add_tip(bill)
     bonus_tip = add_tip_amt()
-    total_bill = round (bill + meal_tax + bill_tip + bonus_tip), 2
+    total_bill = round(bill + meal_tax + bill_tip + bonus_tip, 2)
     print (f'The total bill is ${total_bill}')
-    split_per_person = round(total_bill/parties), 2
-    print (f'Amount per person is ${split_per_person}')
+    split_per_person = round((total_bill/parties), 2)
+    if parties == 1:
+        print (f'Amount per person is ${total_bill}')
+    else:
+        print (f'Amount per person is ${split_per_person}')
     redo_calc()
 
 
-#input information for party and bill
+#input information from user for number if people in party, 
+# user try and except to find ValueErrors.
 def num_of_people():
     try:
         parties = int(input('How may people are in you party?' ))
@@ -25,17 +29,22 @@ def num_of_people():
     
 
 
-#get user input for the amount of bill and comment
+#get user input for the amount of bill, uses if, elif, else statments to comment, 
+# uses try and except to find ValueErrors
 
 def meal_amount ():
-    bill = float(input('What is the amount of the bill? '))
-    if bill <=50:
-        print ('early night?')
-    elif bill <=100:
-        print ('Looks like you had a good time.')
-    else:
-        print ('Whoa, Big Spender!')
-    return bill
+    try:
+        bill = float(input('What is the amount of the bill? '))
+        if bill <=50:
+            print ('early night?')
+        elif bill <=100:
+            print ('Looks like you had a good time.')
+        else:
+            print ('Whoa, Big Spender!')
+        return bill
+    except ValueError:
+        print('Please enter valid number')
+        return meal_amount()  
 
 #figure sales tax amount
 
@@ -44,7 +53,8 @@ def amt_sales_tax(meal_amount):
     return tax_amt
 
 
-#get user input for the amount of tip, comment and calculate the amount
+#get user input for the amount of tip, uses if, elif, else statments to comment, 
+# uses try and except to find ValueErrors and calculates the amount of tip.
 
 def add_tip(meal_amount):
     tip = float(input('How much would you Like to tip to be in percentage?' ))   
@@ -67,7 +77,8 @@ def add_tip(meal_amount):
         return add_tip()
     
 
- #ask user if the wish to add an additional tip and calculate
+#ask user if the wish to add an additional tip, uses try and except to check ValueErrors, 
+#and prints a statement showing the amount of additional tip.
                 
 def add_tip_amt ():
     try:
@@ -78,7 +89,7 @@ def add_tip_amt ():
         print('Please enter valid number')
         return add_tip_amt()     
      
-#ask user if they want to try agian
+#ask user if they want to try agian and uses a loop using if, elif and else to start over
 
 def redo_calc():
     do_over = input('Would you like to rerun the calculator? Please enter y for Yes, n for No' ).strip()
